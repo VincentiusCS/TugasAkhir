@@ -1,46 +1,29 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package programtiketbioskop.Connection;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import javax.swing.JOptionPane;
-
+/**
+ *
+ * @author user
+ */
 public class Connector {
-    private Connection koneksi;
-    private Statement statement;
-    private final String url = "jdbc:mysql://localhost:3306/bioskop";
+    Connection koneksi;
+    Statement statement;
+    private final String url = "jdbc:mysql://localhost/bioskop";
     private final String username = "root";
     private final String pass = "";
-
     public Connector() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); // Correct MySQL driver class
-            koneksi = DriverManager.getConnection(url, username, pass); // Get a connection
-            statement = koneksi.createStatement(); // Create a statement
-            System.out.println("Connection established.");
-        } catch (ClassNotFoundException e) {
-            System.err.println("MySQL JDBC Driver not found.");
-            JOptionPane.showMessageDialog(null, "Koneksi Gagal: Driver tidak ditemukan!");
-        } catch (SQLException e) {
-            System.err.println("Connection failed.");
-            JOptionPane.showMessageDialog(null, "Koneksi Gagal: " + e.getMessage());
-        }
-    }
-
-    public Connection getConnection() {
-        return koneksi;
-    }
-
-    public Statement getStatement() {
-        return statement;
-    }
-
-    public static void main(String[] args) {
-        Connector connector = new Connector();
-        if (connector.getConnection() != null) {
-            System.out.println("Testing database connection...");
-            // Test database interaction here if needed
+            // Class.forName("com.mysql.jdbc.cj.driver");
+            koneksi = (Connection)DriverManager.getConnection(url, username, pass);
+            statement = (Statement)koneksi.createStatement();
+        } catch(Exception exception) {
+            System.out.println(exception.getMessage());
+            JOptionPane.showMessageDialog(null, "Koneksi Gagal!");
+            System.exit(0);
         }
     }
 }
